@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/core/color.dart';
+import 'package:news_app/helpers/di_service.dart';
 import 'package:news_app/helpers/navigator_key.dart';
 import 'package:news_app/screens/main_screen/ui/main_screen.dart';
 import 'package:news_app/screens/main_screen/ux/cubit.dart';
@@ -14,14 +15,12 @@ class AppLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (BuildContext context) => MainIScreenCubit()),
-        BlocProvider(
-          create: (context) => MainIScreenCubit(),
-        )
+        BlocProvider<MainScreenCubit>(
+          lazy: false,
+          create: (context) => di(),
+        ),
       ],
       child: MaterialApp(
-        // navigatorKey: navigatorKey,
-        // onGenerateRoute: onGenerateRoute,
         debugShowCheckedModeBanner: false,
         title: 'News App',
         navigatorKey: navigatorKey,

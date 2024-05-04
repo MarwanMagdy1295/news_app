@@ -5,6 +5,7 @@ abstract class MainScreenRepositoryInterface {
   Future<NewsModel?> getNews({
     int? pageNumber,
     int? pageSize,
+    String? category,
   });
 }
 
@@ -19,10 +20,17 @@ class MainScreenRepository extends MainScreenRepositoryInterface {
   Future<NewsModel?> getNews({
     int? pageNumber,
     int? pageSize,
-  }) {
-    return _mainScreenRepository.getNews(
-      pageNumber: pageNumber,
-      pageSize: pageSize,
-    );
+    String? category,
+  }) async {
+    try {
+      final data = await _mainScreenRepository.getNews(
+        pageNumber: pageNumber,
+        pageSize: pageSize,
+        category: category,
+      );
+      return data;
+    } catch (e) {
+      rethrow;
+    }
   }
 }

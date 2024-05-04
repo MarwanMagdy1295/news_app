@@ -6,6 +6,7 @@ abstract class MainScreenRemoteDataSourceInterface {
   Future<NewsModel?> getNews({
     int? pageNumber,
     int? pageSize,
+    String? category,
   });
 }
 
@@ -20,19 +21,24 @@ class MainScreenRemoteDataSource extends MainScreenRemoteDataSourceInterface {
   Future<NewsModel?> getNews({
     int? pageNumber,
     int? pageSize,
+    String? category,
   }) async {
+    var res;
     try {
-      final res = await _networkService.getData(
-        url: 'everything?q=news&apiKey=604c50d202d44b138f4645328ca3c52c',
+      res = await _networkService.getData(
+        //top-headlines?country=us&category=&page=1&pageSize=10&apiKey=604c50d202d44b138f4645328ca3c52c
+        url: 'top-headlines?apiKey=604c50d202d44b138f4645328ca3c52c',
         token: true,
         query: {
           "Page": pageNumber,
           "PageSize": pageSize,
+          "country": 'sa',
+          "category": category,
         },
       );
       return NewsModel.fromJson(res.data);
     } catch (e) {
-      throw ErrorModel.parse(e);
+      throw ErrorModel.parse(res['message']);
     }
   }
 }

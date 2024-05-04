@@ -13,6 +13,7 @@ class MainScreenCubit extends Cubit<MainScreenStates> {
   bool isLoadingPagination = false;
   int currentPage = 1;
   String? categoryName = '';
+  int? categoryIndex = 0;
   final TrackingScrollController scrollController = TrackingScrollController();
   final MainScreenRepository _mainScreenRepository =
       MainScreenRepository(mainScreenRepository: di());
@@ -44,7 +45,6 @@ class MainScreenCubit extends Cubit<MainScreenStates> {
 
   Future<void> getNews(
       {required String? categoryName, bool isPagination = false}) async {
-    isLoading = true;
     emit(MainLoadingState());
     if (isPagination) {
       isLoadingPagination = true;
@@ -58,6 +58,7 @@ class MainScreenCubit extends Cubit<MainScreenStates> {
         currentPage++;
       }
     } else {
+      isLoading = true;
       currentPage = 1;
       articles.clear();
     }
@@ -66,14 +67,16 @@ class MainScreenCubit extends Cubit<MainScreenStates> {
         .then((value) {
       newsModel = value;
       articles.addAll(value!.articles!);
-      print('newsModel =>  $newsModel');
-      print('articles list=>  $articles');
+      // print('newsModel =>  $newsModel');
+      // print('articles list=>  $articles');
       emit(MainLoadingState());
       isLoading = false;
+      isLoadingPagination = false;
     }).catchError((onError) {
       emit(MainLoadingState());
       isLoading = false;
-      print('categoryItem error=>  $onError');
+      isLoadingPagination = false;
+      // print('categoryItem error=>  $onError');
     });
   }
 }

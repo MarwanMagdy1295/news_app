@@ -34,7 +34,7 @@ class AppLayout extends StatelessWidget {
           radioTheme: RadioThemeData(
             fillColor: MaterialStateProperty.all(primary),
           ),
-          scaffoldBackgroundColor: kbackGroundColor,
+          scaffoldBackgroundColor: kWhiteColor,
           appBarTheme: const AppBarTheme(
             backgroundColor: kBlueColor,
             elevation: 0,
